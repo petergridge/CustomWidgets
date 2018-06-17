@@ -1,0 +1,24 @@
+SBSnews:
+  widget_type: rssmarquee
+  entity: SBSnews
+  interval: 10
+  recent: 20
+
+map:
+  widget_type: googlemap
+  apikey: !secret google_maps_apikey
+  title: ""
+  devices:
+    - device: device_tracker.peter
+    - device: device_tracker.juliet
+    - device: device_tracker.tristan
+  zones:
+    - zone: zone.home
+      icon: http://maps.google.com/mapfiles/kml/paddle/grn-blank.png
+    - zone: zone.jennys
+    - zone: zone.work
+ 
+aclock:
+    widget_type: analogclock
+    date_format_country: "en-AU"
+    date_format_options: {year: 'numeric', month: 'long', day: 'numeric'}
