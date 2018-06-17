@@ -1,0 +1,12 @@
+.widget-basegooglemap-{{id}} .title {
+    position: absolute;
+    top: 0px;
+    margin: 0px 0px 0px 0px;
+    width: 100%;
+    z-index: 2;
+}
+
+.widget-basegooglemap-{{id}} .gmap {
+    height: 100%;
+    color: #000000;
+}

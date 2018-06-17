@@ -1,0 +1,12 @@
+widget_type: basegooglemap
+fields:
+  title: ""
+  apikey: ""
+  devices: ""
+  zones: ""
+icons: []
+static_css:
+  title_style: $iframe_title_style
+  widget_style: $iframe_widget_style
+css: []
+static_icons: []
