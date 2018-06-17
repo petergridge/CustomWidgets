@@ -60,3 +60,14 @@ tabletBattery:
       "default":
         icon: fa-power-off
         style: "color: red"
+        
+Peter_Phone:
+    widget_type: inputtext
+    title: "Peter's phone"
+    entity: input_text.peter_phone
+    icon_save: fa-check
+    icon_cancel: fa-times
+    icon_edit: fa-edit
+    icon_close: fa-times
+    regexp: ^04[0-9]{8,8}$
+    error_msg: "Invalid phone number"
