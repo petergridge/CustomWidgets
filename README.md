@@ -2,7 +2,7 @@
 Home Assistant Appdaemon HADashboard custom widgets
 
 I am not sure that I have applied styles correctly or at all to these so if there are issues and you can help with please let me know. 
-![Screenshot](DASH.png)
+![Screenshot](Dash.PNG)
 # Google Map Widget
 Presents tracked devices and zones in a google map. 
 
