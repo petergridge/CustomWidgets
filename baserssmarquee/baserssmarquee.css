@@ -1,0 +1,51 @@
+.widget-baserssmarquee-{{id}} {
+    position: relative;
+    --container-width: 100%;
+    --container-width2: 100%;
+}
+
+.widget-baserssmarquee-{{id}} .title {
+    position: absolute;
+    top: 0px;
+    margin: 0px 0px 0px 0px;
+    width: 100%;
+    z-index: 1;
+}
+
+@keyframes Autoticker {
+ 0%   { 
+ transform: translate3d(0, 0, 0);
+ visibility: visible;
+ }
+ 100% { 
+ transform: translate3d( -100%, 0, 0);
+ }
+}
+
+.widget-baserssmarquee-{{id}} .wrap {
+  position: absolute;
+  top: 5px;
+  width: var(--container-width, 100%);
+  overflow: hidden;
+  box-sizing: content-box;
+}
+.widget-baserssmarquee-{{id}} .marquee {
+  display: inline-block;
+  height: 120px; 
+  white-space: nowrap;
+  padding-left: var(--container-width, 0%);
+  padding-right: var(--container-width2, 0%);
+  box-sizing: content-box;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-name: Autoticker;
+  animation-duration: 15s;  
+}
+.widget-baserssmarquee-{{id}} .marquee_item {
+  display: inline-block;
+  font-size: 3rem;
+}
+
+
+
+

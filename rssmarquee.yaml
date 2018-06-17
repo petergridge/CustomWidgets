@@ -1,0 +1,13 @@
+widget_type: baserssmarquee
+entity: {{entity}}
+fields:
+  title: {{title}}
+  interval: 15
+  recent: 30
+static_css:
+  title_style: $rss_title_style
+  text_style: $rss_text_style
+  widget_style: $rss_widget_style
+css: []
+icons: []
+static_icons: []
