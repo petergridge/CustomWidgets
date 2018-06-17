@@ -29,3 +29,9 @@ Uses the AppDaemon RSS widget as the basis for this so the setup is pretty much 
 - set the feeds up as documented in the AppDaemon HADashboard documentation.
 - interval setting defines the speed of the ticker
 - recent sets the maximum number of stories to show.
+
+# Evaluated Icon
+Modifies the icon based on the 'eval' of a rule provided.
+
+This is an extension of the AppDaemon Icon widget that sets the icon based on the state of the monitored entity. This widget allows for the evaluation of a rule for example '< 10' so a numeric rule can be used to modify an icon and it's colour. I use this to show the battery/charging status of the tablets on my network.
+
