@@ -1,0 +1,19 @@
+<h1 class="title" id="title" data-bind="text: title, attr:{ style: title_style}"></h1>
+<h1 class="title2" data-bind="text: title2, attr:{ style: title2_style}"></h1>
+<div class="valueunit" data-bind="attr:{ style: container_style}">
+  <h2 class="value" data-bind="html: value, attr:{ style: value_style}"></h2>
+</div>
+<p class="secondary-icon edit"><i data-bind="attr: {class: icon_edit, style: edit_style}" id="edit"></i></p>
+
+<!-- The Modal -->
+<div id="myModal" class="modal" >
+  <!-- Modal content -->
+  <div class="modal-content" text-align="center" data-bind="attr:{style: widget_style}">
+    <p id="Modal_Title">Edit text</p><br>
+    <input id="minput" type="text" name="input"  data-bind="attr:{ style: value_style}" autofocus> 
+    <span id="error" class="error" data-bind="attr:{ style: error_style}"><p id="error-msg"></p></span>
+    <p><br></p>
+    <span id="save" class="save"><i data-bind="attr: {class: icon_save, style: save_style}"></i></span> 
+    <span id="cancel" class="cancel"><i data-bind="attr: {class: icon_cancel, style: cancel_style}"></i></span>  
+  </div>
+</div>
