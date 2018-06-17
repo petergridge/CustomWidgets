@@ -68,6 +68,5 @@ Peter_Phone:
     icon_save: fa-check
     icon_cancel: fa-times
     icon_edit: fa-edit
-    icon_close: fa-times
     regexp: ^04[0-9]{8,8}$
     error_msg: "Invalid phone number"
