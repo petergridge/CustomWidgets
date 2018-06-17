@@ -18,6 +18,9 @@ see the .dash extract for settings.
 
 # Analogue Clock Widget
 Shows an old fashioned clock face with day and date.
+- localise the clock date by modifying these settings in the .dash config
+  - date_format_country: "en-AU"
+  - date_format_options: {year: 'numeric', month: 'long', day: 'numeric'}
 
 # RSS Marquee
 Shows a ticker/marquee style for rss feeds. 
