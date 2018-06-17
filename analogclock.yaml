@@ -1,0 +1,13 @@
+widget_type: baseanalogclock
+fields:
+  date: ""
+  time: ""
+  date_format_country: ""
+  date_format_options: ""
+static_css:
+  date_style: $clock_date_style
+  time_style: $clock_time_style
+  widget_style: $clock_widget_style
+static_icons: []
+icons: []
+css: []

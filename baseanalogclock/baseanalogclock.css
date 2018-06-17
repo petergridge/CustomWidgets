@@ -1,0 +1,25 @@
+.widget-baseclock-{{id}} {
+	position: relative;
+}
+
+.widget-baseclock-{{id}}.date {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baseclock-{{id}}.time {
+ 	position: absolute;
+	top: 45px;
+	width: 100%;
+}
+
+.widget-basegmap-{{id}} .outer-frame {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    z-index: 1;
+    border: none;
+}
