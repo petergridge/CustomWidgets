@@ -1,6 +1,8 @@
 # CustomWidgets
 Home Assistant Appdaemon HADashboard custom widgets
 
+I am not sure that I have applied styles correctly or at all to these so if there are issues and you can help with please let me know. 
+
 # Google Map Widget
 Presents tracked devices and zones in a google map. 
 
@@ -13,3 +15,14 @@ An information window is shown when the pin is clicked, with zones showing the f
   - Geocoding API
   
 see the .dash extract for settings.
+
+# Analogue Clock Widget
+Shows an old fashioned clock face with day and date.
+
+# RSS Marquee
+Shows a ticker/marquee style for rss feeds. 
+
+Uses the AppDaemon RSS widget as the basis for this so the setup is pretty much identical. 
+- set the feeds up as documented in the AppDaemon HADashboard documentation.
+- interval setting defines the speed of the ticker
+- recent sets the maximum number of stories to show.
