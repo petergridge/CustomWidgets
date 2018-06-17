@@ -35,3 +35,7 @@ Modifies the icon based on the 'eval' of a rule provided.
 
 This is an extension of the AppDaemon Icon widget that sets the icon based on the state of the monitored entity. This widget allows for the evaluation of a rule for example '< 10' so a numeric rule can be used to modify an icon and it's colour. I use this to show the battery/charging status of the tablets on my network.
 
+# Input Text Widget (baseinputtext)
+Allows the input of text using a widget.
+The input capability is provided using a modal window displayed in the centre of the screen.
+The data input can be evaluated using a regular expression to validate the input and the error message can be set in the .dash confg
