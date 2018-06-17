@@ -22,3 +22,41 @@ aclock:
     widget_type: analogclock
     date_format_country: "en-AU"
     date_format_options: {year: 'numeric', month: 'long', day: 'numeric'}
+    
+tabletBattery:
+    widget_type: iconeval
+    title: "Tablet Battery"
+    entity: sensor.tmpl_tablet_battery
+    state_text: 1
+    icons:
+      "empty":
+        icon: fa-battery-empty
+        style: "color: red"
+        rule: "<15"
+      "low":
+        icon: fa-battery-quarter
+        style: "color: orange"
+        rule: "<27"
+      "half":
+        icon: fa-battery-half
+        style: "color: Chartreuse"
+        rule: "<60"
+      "high":
+        icon: fa-battery-three-quarters
+        style: "color: Chartreuse"
+        rule: "<85"
+      "full":
+        icon: fa-battery-full
+        style: "color: Chartreuse"
+        rule: "<=100"
+      "Charging":
+        icon: fa-plug
+        style: "color: Chartreuse"
+        rule: "= 'Charging'"
+      "unknown":
+        icon: fa-plug
+        style: "color: red"
+        rule: "= 'unknown'"
+      "default":
+        icon: fa-power-off
+        style: "color: red"
