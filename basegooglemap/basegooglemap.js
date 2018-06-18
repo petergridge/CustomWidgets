@@ -36,6 +36,7 @@ function basegooglemap(widget_id, url, skin, parameters)
   var locations = [];
   var infowindow = [];
   var map;
+  var infoopen= false;
  
   if (document.querySelector('html').lang)
     lang = document.querySelector('html').lang;
@@ -76,7 +77,7 @@ function basegooglemap(widget_id, url, skin, parameters)
       };
  
       map = new google.maps.Map(document.getElementById(widget_id).querySelector("#map"),myOptions);
-      infowindow = new google.maps.InfoWindow;
+//      infowindow = new google.maps.InfoWindow;
 
       setTimeout(SetMarkers(),500);
   });  
@@ -148,14 +149,15 @@ function basegooglemap(widget_id, url, skin, parameters)
     item ["update"] = true;
     locations.push(item);
   } // end initiatemap
-  
+
   function SetMarkers() {
     var vimage = ""//'http://maps.google.com/mapfiles/kml/paddle/grn-blank.png';
-    var infoopen = false;
 
-    var infowindow = new google.maps.InfoWindow;
+    infowindow = new google.maps.InfoWindow;
     google.maps.event.addListener(infowindow, "closeclick", function() {
+      infowindow.close();
       infoopen = false;
+      SetMarkers();
       zoomExtends();
     });   
 
@@ -171,9 +173,10 @@ function basegooglemap(widget_id, url, skin, parameters)
       if (locations[i].marker == "")
         locations[i].marker = new google.maps.Marker({visible: false});
       // put device trackers on the map if they are not in a zone
-      if (locations[i].type == "tracker") {
+      if (locations[i].type === "tracker") {
         if (locations[i].state === "not_home") {
           if (locations[i].marker.getVisible() == false) {
+            // set visible and move the pin
             locations[i].marker.setOptions({
               position: locations[i].latlng,
               map: map,
@@ -182,14 +185,22 @@ function basegooglemap(widget_id, url, skin, parameters)
               icon: vimage,
               visible: true
             });
-          } else {
+          } else { // just move the pin
             locations[i].marker.setPosition(locations[i].latlng);
           }
+          // add listener for pop up
           locations[i].marker.addListener('click', function() {
-            infowindow.setContent(reversegcodewindow(this));
+            reversegcodewindow(infowindow, this.getPosition());
             infowindow.open(map,this);
+            map.panTo(this.getPosition());
+            map.setCenter(this.getPosition());
+            map.setZoom(15);
+            infoopen = true;
           });
-        } 
+        } else { // in a zone so hide the pin
+          locations[i].marker.setVisible(false);
+          infowindow.close();
+        }
       } else { //put zones on the map
         if (locations[i].marker.getVisible() == false) {
         updateZoneCount(locations[i].friendly_name);
@@ -201,9 +212,10 @@ function basegooglemap(widget_id, url, skin, parameters)
             icon: locations[i].icon,
             label: locations[i].tcount.toString(),
           });
-        } else {
+        } else {// update the count only
           locations[i].marker.setLabel(locations[i].tcount.toString());
         }
+        // information window
         locations[i].marker.addListener('click', function() {
           infowindow.setContent(setNames (this.title));
           infoopen = true;
@@ -226,12 +238,11 @@ function basegooglemap(widget_id, url, skin, parameters)
         if (typeof locations[z].latlng.lng != "undefined"  )
           bounds.extend(locations[z].latlng);
       }    
-//      map.panToBounds(bounds,{top:30});
       map.fitBounds(bounds,{top:30});
     }
   }
   
-  function reversegcodewindow(pposition)
+  function reversegcodewindow(pwindow, pposition)
   {
     //get the address details and show information window
     var geocoder = new google.maps.Geocoder;
@@ -239,8 +250,8 @@ function basegooglemap(widget_id, url, skin, parameters)
     var gcstate;
     var gcaddr; 
     var gcstreet;
-    var street_suburb
-
+    var street_suburb;
+    
     geocoder.geocode({'location': pposition}, function(results, status) {
       if (status === 'OK' && (results[0])) {
         var a = results[0].address_components;
@@ -264,8 +275,10 @@ function basegooglemap(widget_id, url, skin, parameters)
          // no result found
          street_suburb = "Not determined";
       }
+      pwindow.setContent(street_suburb);
+      //return street_suburb;
     }); //end geocoder
-    return street_suburb;
+
   } // end setmarker
 
   function setNames (pzone) {
@@ -292,51 +305,39 @@ function basegooglemap(widget_id, url, skin, parameters)
  
   function OnStateAvailable(self, state)
   {        
-  var time = new Date();
- //   document.getElementById(widget_id).querySelector("#title").innerHTML = time.getHours() + ":" + time.getMinutes();  
     initiatemap(self,state);
   } // end OnStateAvailable
 
   function OnStateUpdate(self, state)
   {
-
-  var time = new Date();
- //  document.getElementById(widget_id).querySelector("#title").innerHTML = time.getHours() + ":" + time.getMinutes();  
-  ventity = state.entity_id;
+    ventity = state.entity_id;
     vlatlng = {lat: state.attributes.latitude, lng: state.attributes.longitude};
     for(i = 0; i < locations.length; ++i) {
       if(locations[i].device == ventity) {
         locations[i].latlng = vlatlng;
-        locations[i].status = state.state;
+        locations[i].state = state.state;
         locations[i].update = true;
         break;
       }
     }
-    for(i = 0; i < locations.length; ++i ) {
-      if (locations[i].type == "zone") 
-        locations[i]["tcount"] = 0;
-    }
-    for(i = 0; i < locations.length; ++i ) {
-      if (locations[i].type == "tracker")
-        updateZoneCount(state.state);
-    }
-    SetMarkers();
+    updateZoneCount();
+    
+    if (infoopen != true) 
+      SetMarkers();
   } // end OnStateUpdate
 
-  function updateZoneCount(pentity) {
-    var vcount = 0;
+  function updateZoneCount() {
     // get zone
     for(i = 0; i < locations.length; ++i) {
-      if(locations[i].friendly_name.toUpperCase() == pentity.toUpperCase()) {
+      var vcount = 0;
+      if(locations[i].type == "zone") {
+      // now check device trackers
         for(h = 0; h < locations.length; ++h) {
-          //count occurences of trackers
-          if(locations[h].state.toUpperCase() == pentity.toUpperCase())
-            vcount += 1;
+            //count occurences of trackers
+            if(locations[h].state.toUpperCase() == locations[i].friendly_name.toUpperCase())
+              vcount += 1;
         } 
-        if (locations[i].tcount === vcount) {
-          locations[i].update = true;
-          break;
-        }
+        locations[i].update = true;
         locations[i].tcount = vcount;
       }
     } 
