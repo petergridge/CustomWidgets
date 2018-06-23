@@ -27,6 +27,13 @@ tabletBattery:
     widget_type: iconeval
     title: "Tablet Battery"
     entity: sensor.tmpl_tablet_battery
+    enable: 1
+    post_service_active:
+        service: homeassistant/turn_on
+        entity_id: switch.tablet
+    post_service_inactive:
+        service: homeassistant/turn_off
+        entity_id: switch.tablet    
     state_text: 1
     icons:
       "empty":
@@ -49,14 +56,12 @@ tabletBattery:
         icon: fa-battery-full
         style: "color: Chartreuse"
         rule: "<=100"
-      "Charging":
+      "charging":
         icon: fa-plug
         style: "color: Chartreuse"
-        rule: "= 'Charging'"
-      "unknown":
-        icon: fa-plug
-        style: "color: red"
-        rule: "= 'unknown'"
+      "offline":
+        icon: fa-power-off
+        style: "color: orange"
       "default":
         icon: fa-power-off
         style: "color: red"
