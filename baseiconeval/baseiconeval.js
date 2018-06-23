@@ -12,9 +12,19 @@ function baseiconeval(widget_id, url, skin, parameters)
   // Parameters may come in useful later on
   
   self.parameters = parameters;
-
-  var callbacks = [];
-
+  
+  self.OnButtonClick = OnButtonClick;
+  if ("enable" in self.parameters && self.parameters.enable == 1)
+  {
+    var callbacks =
+    [
+        {"selector": '#' + widget_id + ' > span', "action": "click", "callback": self.OnButtonClick},
+    ]
+  }            
+  else
+  {
+      var callbacks = []
+  }        
   self.OnStateAvailable = OnStateAvailable;
   self.OnStateUpdate = OnStateUpdate;
 
@@ -78,6 +88,9 @@ function baseiconeval(widget_id, url, skin, parameters)
           icon: fa-battery-full
           style: "color: Chartreuse"
           rule: "<=100"
+        "charging":
+          icon: fa-plug
+          style: "color: Chartreuse"
         "default":
           icon: fa-plug
           style: "color: red"
@@ -93,8 +106,15 @@ function baseiconeval(widget_id, url, skin, parameters)
       // to get and evaluate the rule against the state
       // exit the loop when a rule evaluates as true
       p = self.parameters.icons;
+      var keys = Object.keys(self.parameters.icons);
       for (var i in p) {
         if (p.hasOwnProperty(i)) {
+          // no rule needed if state matches
+          if (i == state) {
+              vstate = i;
+              break;
+          }
+          // eval the rule
           try{
             if (eval(state + p[i]["rule"])) {
               vstate = i;
@@ -102,8 +122,8 @@ function baseiconeval(widget_id, url, skin, parameters)
             }
           } 
           catch {
-              // don't fail if bad rule provided
-              vstate = "baseicon_error";
+            // don't fail if bad rule provided
+            vstate = "baseicon_error";
           }
         }
       }  //end i loop
@@ -115,8 +135,8 @@ function baseiconeval(widget_id, url, skin, parameters)
       }
       else if ("default" in self.parameters.icons)
       {
-        self.set_icon(self, "icon", self.parameters.icons.default.icon);
-        self.set_field(self, "icon_style", self.parameters.icons.default.style);
+        self.set_icon(self, "icon", self.parameters.icons['default'].icon);
+        self.set_field(self, "icon_style", self.parameters.icons['default'].style);
       }
       else
       {
@@ -135,5 +155,19 @@ function baseiconeval(widget_id, url, skin, parameters)
     {
         self.set_field(self, "state_text", self.map_state(self, state))
     }
-  }
+  } //end set_view
+
+  function OnButtonClick(self)
+  {
+  if (self.state == 'charging')
+    {
+      args = self.parameters.post_service_inactive
+    }
+    else
+    {
+      args = self.parameters.post_service_active
+    }
+    self.call_service(self, args);
+  }  //end OnButtonClick
+
 }
